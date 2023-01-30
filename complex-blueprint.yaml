@@ -6,13 +6,25 @@ schema_version: "1.0.0"
 description: "Sample blueprint to demonstrate passing of complex Terraform variables"
 inputs:
   - name: resource_group
+    type: string
     value: "24"
   - name: region
+    type: string
   - name: sample_var
+    type: string 
   - name: boolean_var
+    type: boolean
   - name: list_any_flow_scalar
+    type: list(any)
   - name: list_any_block_scalar
+    type: list(any)
   - name: docker_ports
+    type: |
+          list(object({
+            internal = number
+            external = number
+            protocol = string
+          })
 outputs:
   - name: blueprint-output
     value: $module.terraform_module2.outputs.nested_complex
@@ -23,7 +35,7 @@ modules:
   - name: terraform_module1
     module_type: terraform
     source:
-      source_type: git
+      source_type: github
       git:
         git_repo_url: "https://github.com/Cloud-Schematics/blueprint-example-modules/tree/main/tf-inputs-outputs"
         git_branch: "main"
@@ -62,7 +74,7 @@ modules:
   - name: terraform_module2
     module_type: terraform
     source:
-      source_type: git
+      source_type: github
       git:
         git_repo_url: "https://github.com/Cloud-Schematics/blueprint-example-modules/tree/main/tf-inputs-outputs"
         git_branch: "main"
